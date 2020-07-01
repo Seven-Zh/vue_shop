@@ -78,7 +78,7 @@ export default {
         // 判断是否验证成功
         if (!valid) return
         // 验证成功后发送ajax请求
-        let { data: res } = await this.$http.post('login', this.loginForm)
+        const { data: res } = await this.$http.post('login', this.loginForm)
         // 判断是否登录成功
         if (res.meta.status !== 200) return this.$message.error('用户不存在')
         this.$message.success('登录成功')
