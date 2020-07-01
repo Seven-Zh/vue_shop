@@ -33,64 +33,64 @@ export default {
   data() {
     return {
       loginForm: {
-        username: "admin",
-        password: "123456"
+        username: 'admin',
+        password: '123456'
       },
       // 表单验证
       loginFormRull: {
         username: [
           {
             required: true,
-            message: "请输入用户名",
-            trigger: "blur"
+            message: '请输入用户名',
+            trigger: 'blur'
           },
           {
             min: 3,
             max: 16,
-            message: "用户名长度需要在3-16位之间",
-            trigger: "blur"
+            message: '用户名长度需要在3-16位之间',
+            trigger: 'blur'
           }
         ],
         password: [
           {
             required: true,
-            message: "请输入密码",
-            trigger: "blur"
+            message: '请输入密码',
+            trigger: 'blur'
           },
           {
             min: 6,
             max: 15,
-            message: "用户名长度需要在6-15位之间",
-            trigger: "blur"
+            message: '用户名长度需要在6-15位之间',
+            trigger: 'blur'
           }
         ]
       }
-    };
+    }
   },
   methods: {
     // 重置表单
     resetLoginForm() {
-      this.$refs.loginFormRef.resetFields();
+      this.$refs.loginFormRef.resetFields()
     },
     // 预验证
     login() {
       this.$refs.loginFormRef.validate(async valid => {
         // 判断是否验证成功
-        if (!valid) return;
+        if (!valid) return
         // 验证成功后发送ajax请求
-        let { data: res } = await this.$http.post("login", this.loginForm);
+        let { data: res } = await this.$http.post('login', this.loginForm)
         // 判断是否登录成功
-        if (res.meta.status !== 200) return this.$message.error("用户不存在");
-        this.$message.success("登录成功");
+        if (res.meta.status !== 200) return this.$message.error('用户不存在')
+        this.$message.success('登录成功')
         // 登录成功后，将token保存在sessionStorage中
-        console.log(res);
-        window.sessionStorage.setItem("token", res.data.token);
+        console.log(res)
+        window.sessionStorage.setItem('token', res.data.token)
         // 通过编程式导航跳转到home页面
-        this.$router.push("/home");
-      });
+        this.$router.push('/home')
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
