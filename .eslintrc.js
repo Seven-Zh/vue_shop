@@ -18,7 +18,6 @@ module.exports = {
     'no-console': 'off',
     'no-debugger': 'off',
     "space-before-function-paren": 0,
-    "indent": ['off', 2]
   },
 
   'extends': [
