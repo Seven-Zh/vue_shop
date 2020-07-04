@@ -6,13 +6,7 @@
         <img src="../assets/logo.png" alt />
       </div>
       <!-- 登录区域 -->
-      <el-form
-        label-width="0px"
-        class="login_form"
-        :model="loginForm"
-        :rules="loginFormRull"
-        ref="loginFormRef"
-      >
+      <el-form label-width="0px" class="login_form" :model="loginForm" :rules="loginFormRull" ref="loginFormRef">
         <el-form-item prop="name">
           <el-input prefix-icon="el-icon-user-solid" v-model="loginForm.username"></el-input>
         </el-form-item>
@@ -83,7 +77,6 @@ export default {
         if (res.meta.status !== 200) return this.$message.error('用户不存在')
         this.$message.success('登录成功')
         // 登录成功后，将token保存在sessionStorage中
-        console.log(res)
         window.sessionStorage.setItem('token', res.data.token)
         // 通过编程式导航跳转到home页面
         this.$router.push('/home')
