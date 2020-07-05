@@ -42,7 +42,8 @@
             </el-button>
             <!-- 分配角色 -->
             <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
-              <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+              <el-button type="warning" icon="el-icon-setting" size="mini" @click="showSetRoleDialog(slotProps.row)">
+              </el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -96,6 +97,22 @@
         <el-button type="primary" @click="editUserInfo">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 分配用户角色对话框 -->
+    <el-dialog title="分配角色" :visible.sync="setUserRoleDialogVisible" width="50%" @close="resetInfo">
+      <p>当前的用户：{{userInfo.username}}</p>
+      <p>当前的角色:{{userInfo.role_name}}</p>
+      <p>
+        分配新角色：
+        <el-select v-model="selectValue" placeholder="请选择">
+          <el-option v-for="item in rolesList" :key="item.id" :label="item.roleName" :value="item.id">
+          </el-option>
+        </el-select>
+      </p>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setUserRoleDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="setUserRole">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -128,6 +145,8 @@ export default {
       addDialogVisible: false,
       // 修改用户对话框
       editDialogVisible: false,
+      // 分配用户角色对话框
+      setUserRoleDialogVisible: false,
       // 添加用户表单
       addForm: {
         username: '',
@@ -166,7 +185,13 @@ export default {
           { required: true, message: '请输入用手机号码', trigger: 'blur' },
           { validator: checkMobile, trigger: 'blur' }
         ]
-      }
+      },
+      // 要被分配角色的用户信息
+      userInfo: {},
+      // 所有角色列表
+      rolesList: [],
+      // select选择器选中的值
+      selectValue: ''
     }
   },
   created() {
@@ -262,6 +287,33 @@ export default {
       // 删除用户成功，重新渲染数据
       this.$message.success('删除用户成功')
       this.getUserInfo()
+    },
+    // 打开并渲染分配用户角色对话框
+    async showSetRoleDialog(userInfo) {
+      // 把拿到的用户信息放到data数据中
+      this.userInfo = userInfo
+      // 获取角色列表，存到data数据中
+      const { data: res } = await this.$http.get('roles')
+      if (res.meta.status !== 200) return this.$message.error('获取角色列表失败')
+      this.rolesList = res.data
+      // 展示对话框
+      this.setUserRoleDialogVisible = true
+    },
+    // 发送请求,分配用户角色
+    async setUserRole() {
+      if (!this.selectValue) return this.$message.error('请选择要分配的角色')
+      const { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, {
+        rid: this.selectValue
+      })
+      if (res.meta.status !== 200) return this.$message.error('设置角色失败')
+      // 设置角色成功后，关闭对话框，重新渲染数据
+      this.$message.success('设置角色成功')
+      this.setUserRoleDialogVisible = false
+      this.getUserInfo()
+    },
+    // 对话框关闭，重置数据
+    resetInfo() {
+      this.selectValue = ''
     }
   }
 }
