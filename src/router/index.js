@@ -13,6 +13,7 @@ import List from '../components/Goods/List.vue'
 import Add from '../components/Goods/Add.vue'
 import Edit from '../components/Goods/Edit.vue'
 import Order from '../components/Order/Order.vue'
+import Reprot from '../components/Report/Report.vue'
 
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -38,7 +39,8 @@ const routes = [
       { path: '/goods', component: List },
       { path: '/goods/add', component: Add },
       { path: '/goods/edit/:id', component: Edit },
-      { path: '/orders', component: Order }
+      { path: '/orders', component: Order },
+      { path: '/reports', component: Reprot }
     ]
   }
 ]
