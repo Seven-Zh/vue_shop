@@ -5,7 +5,7 @@
       <!-- logo区域 -->
       <div>
         <img src="../assets/heima.png" alt />
-        <span>电商管理平台后台管理系统</span>
+        <span>嘿嘿嘿电商后台管理系统</span>
       </div>
       <!-- 退出按钮 -->
       <el-button type="info" @click="logout">退出</el-button>

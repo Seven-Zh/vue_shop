@@ -24,6 +24,9 @@ html, body, #app {
     margin-top: 15px;
 }
 /* 定义级联选择器高度下拉菜单 */
+.el-cascader-menu__wrap {
+    height: 300px;
+}
 .el-cascader-panel {
     height: 300px;
 }

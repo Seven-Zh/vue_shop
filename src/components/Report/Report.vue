@@ -58,7 +58,6 @@ export default {
   // 在所有页面元素都挂载并渲染完之后，渲染echarts图标
   async mounted() {
     const { data: res } = await this.$http.get('reports/type/1')
-    console.log(res.data)
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'))
     const result = $.extend(true, res.data, this.options)

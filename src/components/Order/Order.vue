@@ -35,9 +35,10 @@
           <template v-slot="slotProps">{{slotProps.row.create_time | format('yyyy-MM-dd hh:mm:ss')}}</template>
         </el-table-column>
         <el-table-column label="操作">
-          <template>
-            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditOrderDialog"></el-button>
-            <el-button type="success" icon="el-icon-location" size="mini" @click="showLocation">
+          <template v-slot="slotProps">
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditOrderDialog(slotProps.row)">
+            </el-button>
+            <el-button type="success" icon="el-icon-location" size="mini" @click="showLocation(slotProps.row)">
             </el-button>
           </template>
         </el-table-column>
@@ -128,8 +129,6 @@ export default {
       // 成功存储数据到data中
       this.orderList = res.data.goods
       this.total = res.data.total
-      console.log(this.queryInfo)
-      console.log(res)
     },
     // 监听pagesize
     handleSizeChange(newSize) {
@@ -144,7 +143,6 @@ export default {
     // 展示物流信息
     async showLocation() {
       const { data: res } = await this.$http.get('/kuaidi/804909574412544580')
-      console.log(res)
       if (res.meta.status !== 200) return this.$message.error('获取物流信息失败')
       this.locationInfo = res.data
       this.locationDialogVisible = true
